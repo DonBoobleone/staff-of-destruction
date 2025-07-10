@@ -23,6 +23,7 @@ data:extend({
                 }
             }
         },
+        weight = 100 * kg,
         stack_size = 1
     },
     {
@@ -47,6 +48,7 @@ data:extend({
                 }
             }
         },
+        weight = 100 * kg,
         magazine_size = 1000,
         subgroup = "ammo",
         order = "z[explosion-core]",
