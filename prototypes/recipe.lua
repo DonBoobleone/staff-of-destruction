@@ -19,8 +19,9 @@ data:extend({
         enabled = false,
         energy_required = 10,
         ingredients = {
-            { type = "item", name = "explosives",     amount = 500 },
-            { type = "item", name = "uranium-235",    amount = 100 },
+            { type = "item", name = "explosives",     amount = 200 },
+            { type = "item", name = "uranium-235",    amount = 20 },
+            { type = "item", name = "uranium-238",    amount = 100 },
             { type = "item", name = "energy-shield-equipment",    amount = 1 }
         },
         results = {

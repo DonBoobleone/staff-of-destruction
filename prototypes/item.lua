@@ -9,7 +9,7 @@ data:extend({
         attack_parameters = {
             type = "projectile",
             ammo_category = "explosion-magic",
-            movement_slow_down_factor = 1,
+            movement_slow_down_factor = 0.95,
             warmup = 0,
             cooldown = 150,
             range = 36,
@@ -48,7 +48,7 @@ data:extend({
                 }
             }
         },
-        weight = 100 * kg,
+        weight = 1000 * kg,
         magazine_size = 1000,
         subgroup = "ammo",
         order = "z[explosion-core]",

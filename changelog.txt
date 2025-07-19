@@ -1,5 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 19. 07. 2025
+  Graphics:
+    - Icon update
+  Balancing:
+    - Explosion core recipe: Explosives and U-235 lowered and added U-238
+    - Removed utility-science from technology cost.
+    - Increased science pack cost from 500 to 1000
+    - Changed explosion-core rocket capacity to 1
+    - Decreased staff movement slowdown from 1 to 0.95
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
-Date: 07. 10. 2025
+Date: 10. 07. 2025
   Major Features:
     - Initial release
