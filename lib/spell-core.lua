@@ -59,12 +59,13 @@ function SpellCore.calculate_spell_tier(mana, min_mana_cost, max_tier, tier_expo
     return tier
 end
 
-function SpellCore.casting_animation(surface, position, animation_name)
+function SpellCore.casting_animation(surface, position, animation_name, scale)
     if not surface or not surface.valid then return false end
     surface.create_entity({
         name = animation_name or "explosion",  -- Fallback to base if missing
         position = position,
-        force = "player"
+        force = "player",
+        scale = scale or 1.0  -- Apply scale if provided, default to 1.0
     })
     return true
 end

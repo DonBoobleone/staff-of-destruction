@@ -6,14 +6,29 @@ local EXPLOSION_MAGIC = {
     TIER_EXPONENT = 10,
     PROJECTILES = {
         "explosive-rocket",         -- Tier 1: 1 MJ
-        "artillery-projectile",     -- Tier 2: 10 MJ
+        "cluster-explosive-rocket", -- Tier 2: 10 MJ
         "atomic-rocket",            -- Tier 3: 100 MJ
         "big-nuclear-explosion"     -- Tier 4: 1000 MJ
     },
     MAX_TIER = 4,  -- Derived from projectiles table
     CASTING_ANIMATION = "magic-swirl",
+    TARGET_ANIMATION_PREFIX = "pentagram-tier-",  -- Prefix for tiered pentagram animations
     EVENT_NAME = "magic-explosion-core-event"
 }
+
+-- Create animation with validation
+local function create_spell_animation(surface, position, animation_name, tier)
+    local final_animation_name = animation_name
+    if animation_name == EXPLOSION_MAGIC.TARGET_ANIMATION_PREFIX and tier then
+        final_animation_name = animation_name .. tier  -- Append tier number for pentagram
+    end
+    if not SpellCore.casting_animation(surface, position, final_animation_name, 1.0) then
+        log(string.format("Failed to create animation '%s' at position (%f, %f)",
+            final_animation_name, position.x, position.y))
+        return false
+    end
+    return true
+end
 
 -- Helper function to get active gun cooldown
 local function get_cooldown_of_active_gun(player)
@@ -52,11 +67,12 @@ script.on_event(defines.events.on_script_trigger_effect, function(event)
     -- Calculate cost and drain mana
     local mana_cost = EXPLOSION_MAGIC.MIN_MANA_COST * (EXPLOSION_MAGIC.TIER_EXPONENT ^ (spell_tier - 1))
     SpellCore.drain_energy(player, mana_cost)
-    
-    -- Play casting animation
+
+    -- Play casting animations
     local surface = player.surface
     if surface and surface.valid then
-        SpellCore.casting_animation(surface, event.source_position, EXPLOSION_MAGIC.CASTING_ANIMATION)
+        create_spell_animation(surface, event.source_position, EXPLOSION_MAGIC.CASTING_ANIMATION)
+        create_spell_animation(surface, event.target_position, EXPLOSION_MAGIC.TARGET_ANIMATION_PREFIX, spell_tier)
     else
         log("Invalid surface for casting animation.")
         return

@@ -1,4 +1,17 @@
 local sounds = require("__base__/prototypes/entity/sounds")
+local rocket_pictures = require("__base__.prototypes.entity.rocket-projectile-pictures")
+
+-- Constants for cluster explosive rocket
+local CLUSTER_EXPLOSIVE_ROCKET = {
+    NAME = "cluster-explosive-rocket",
+    CLUSTER_COUNT = 10,
+    DISTANCE = 5,
+    DISTANCE_DEVIATION = 3,
+    DIRECTION_DEVIATION = 0.6,
+    STARTING_SPEED = 0.3,
+    STARTING_SPEED_DEVIATION = 0.3,
+    ACCELERATION = 0.01
+}
 
 local max_nuke_shockwave_movement_distance_deviation = 2
 local max_nuke_shockwave_movement_distance = 19 + max_nuke_shockwave_movement_distance_deviation / 6
@@ -211,6 +224,68 @@ data:extend({
                             }
                         }
                     }
+                }
+            }
+        },
+        animation = {
+            filename = "__base__/graphics/entity/rocket/rocket.png",
+            draw_as_glow = true,
+            frame_count = 1,
+            line_length = 1,
+            width = 20,
+            height = 60,
+            shift = {0, 8},
+            priority = "high"
+        },
+        smoke = {
+            {
+                name = "smoke-fast",
+                deviation = {0.15, 0.15},
+                frequency = 1,
+                position = {0, 1},
+                slow_down_factor = 1,
+                starting_frame = 3,
+                starting_frame_deviation = 5,
+                starting_frame_speed = 0,
+                starting_frame_speed_deviation = 5
+            }
+        }
+    },
+    {
+        type = "projectile",
+        name = CLUSTER_EXPLOSIVE_ROCKET.NAME,
+        flags = {"not-on-map"},
+        hidden = true,
+        acceleration = CLUSTER_EXPLOSIVE_ROCKET.ACCELERATION,
+        action = {
+            {
+                type = "direct",
+                action_delivery = {
+                    type = "instant",
+                    target_effects = {
+                        {
+                            type = "create-entity",
+                            entity_name = "big-explosion"
+                        },
+                        {
+                            type = "create-entity",
+                            entity_name = "medium-scorchmark-tintable",
+                            check_buildability = true
+                        }
+                    }
+                }
+            },
+            {
+                type = "cluster",
+                cluster_count = CLUSTER_EXPLOSIVE_ROCKET.CLUSTER_COUNT,
+                distance = CLUSTER_EXPLOSIVE_ROCKET.DISTANCE,
+                distance_deviation = CLUSTER_EXPLOSIVE_ROCKET.DISTANCE_DEVIATION,
+                action_delivery = {
+                    type = "projectile",
+                    projectile = "explosive-rocket",
+                    direction_deviation = CLUSTER_EXPLOSIVE_ROCKET.DIRECTION_DEVIATION,
+                    starting_speed = CLUSTER_EXPLOSIVE_ROCKET.STARTING_SPEED,
+                    starting_speed_deviation = CLUSTER_EXPLOSIVE_ROCKET.STARTING_SPEED_DEVIATION
                 }
             }
         },

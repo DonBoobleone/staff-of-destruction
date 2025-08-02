@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 02. 08. 2025
+  Graphics:
+    - Added a summoning circle to mark the target area.
+  Balancing:
+    - Lowered Staff cooldown from 150 to 120
+    - Replaced artirelly-shell with cluster-explosive-rocket
+---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 19. 07. 2025
   Graphics:

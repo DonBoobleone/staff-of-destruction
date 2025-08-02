@@ -11,7 +11,7 @@ data:extend({
             ammo_category = "explosion-magic",
             movement_slow_down_factor = 0.95,
             warmup = 0,
-            cooldown = 150,
+            cooldown = 120,
             range = 36,
             damage_modifier = 1,
             ammo_consumption_modifier = 1,
