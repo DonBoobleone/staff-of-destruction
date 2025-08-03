@@ -9,7 +9,7 @@ local EXPLOSION_MAGIC = {
         "cluster-explosive-rocket",     -- Tier 2: 10 MJ
         "cluster-artillery",            -- Tier 3: 100 MJ
         "atomic-rocket",                -- Tier 4: 1 GJ
-        "big-nuclear-explosion"         -- Tier 5: 10 GJ
+        "cluster-nuclear-explosion"     -- Tier 5: 10 GJ
 
     },
     MAX_TIER = 5,  -- Derived from projectiles table

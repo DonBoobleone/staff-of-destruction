@@ -71,10 +71,6 @@ end
 
 function SpellCore.create_projectile_on_target(surface, target_position, projectile_name)
     if not surface or not surface.valid then return false end
-    --[[ if not projectile_name or not data.raw.projectile[projectile_name] then
-        log(string.format("Invalid or missing projectile_name: %s", tostring(projectile_name)))
-        return false
-    end ]]
     surface.create_entity({
         name = projectile_name,
         position = target_position,

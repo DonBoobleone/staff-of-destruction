@@ -1,40 +1,6 @@
 local sounds = require("__base__/prototypes/entity/sounds")
 
 -- Shared constants
-local SHARED_ROCKET_ANIMATION = {
-    filename = "__base__/graphics/entity/rocket/rocket.png",
-    draw_as_glow = true,
-    frame_count = 1,
-    line_length = 1,
-    width = 20,
-    height = 60,
-    shift = { 0, 8 },
-    priority = "high"
-}
-local SHARED_ROCKET_SMOKE = {
-    {
-        name = "smoke-fast",
-        deviation = { 0.15, 0.15 },
-        frequency = 1,
-        position = { 0, 1 },
-        slow_down_factor = 1,
-        starting_frame = 3,
-        starting_frame_deviation = 5,
-        starting_frame_speed = 0,
-        starting_frame_speed_deviation = 5
-    }
-}
-local SHARED_SHELL_ANIMATION = {
-    filename = "__base__/graphics/entity/artillery-projectile/shell.png",
-    draw_as_glow = true,
-    frame_count = 1,
-    line_length = 1,
-    width = 64,
-    height = 64,
-    shift = { 0, 0 },
-    priority = "high",
-    scale = 0.5
-}
 local SHARED_SHELL_SMOKE = {
     {
         name = "smoke-fast",
@@ -49,7 +15,6 @@ local SHARED_SHELL_SMOKE = {
     }
 }
 local SHARED_NUKE_VARS = {
-    max_shockwave_movement_distance_deviation = 2,
     max_shockwave_movement_distance = 19,
     shockwave_starting_speed_deviation = 0.075
 }
@@ -95,9 +60,7 @@ local function create_rocket_projectile(name, acceleration, action)
         flags = { "not-on-map" },
         hidden = true,
         acceleration = acceleration,
-        action = action,
-        animation = SHARED_ROCKET_ANIMATION,
-        smoke = SHARED_ROCKET_SMOKE
+        action = action
     }
 end
 -- Cluster explosive rocket
@@ -144,7 +107,18 @@ local artillery_shell = {
     flags = { "not-on-map" },
     acceleration = 0.005,
     turn_speed = 0.01,
-    animation = SHARED_SHELL_ANIMATION,
+    animation =
+    {
+        filename = "__base__/graphics/entity/artillery-projectile/shell.png",
+        draw_as_glow = true,
+        frame_count = 1,
+        line_length = 1,
+        width = 64,
+        height = 64,
+        shift = { 0, 0 },
+        priority = "high",
+        scale = 0.5
+    },
     action = {
         type = "direct",
         action_delivery = {
@@ -191,7 +165,19 @@ local artillery_shell = {
             }
         }
     },
-    smoke = SHARED_SHELL_SMOKE
+    smoke = {
+        {
+            name = "smoke-fast",
+            deviation = { 0.15, 0.15 },
+            frequency = 1,
+            position = { 0, 0 },
+            slow_down_factor = 1,
+            starting_frame = 3,
+            starting_frame_deviation = 5,
+            starting_frame_speed = 0,
+            starting_frame_speed_deviation = 5
+        }
+    }
 }
 -- Cluster artillery
 local cluster_artillery = create_rocket_projectile(
@@ -205,7 +191,7 @@ local cluster_artillery = create_rocket_projectile(
                 target_effects = {
                     {
                         type = "create-entity",
-                        entity_name = "big-explosion"
+                        entity_name = "big-artillery-explosion"
                     },
                     {
                         type = "create-entity",
@@ -230,14 +216,11 @@ local cluster_artillery = create_rocket_projectile(
         }
     }
 )
--- Adjust nuke max distance calculation
-SHARED_NUKE_VARS.max_shockwave_movement_distance = SHARED_NUKE_VARS.max_shockwave_movement_distance +
-SHARED_NUKE_VARS.max_shockwave_movement_distance_deviation / 6
 
 -- big nuclear explosion
 local big_nuclear_explosion = {
     type = "projectile",
-    name = "big-nuclear-explosion",
+    name = "cluster-nuclear-explosion",
     flags = { "not-on-map" },
     acceleration = 0.005,
     turn_speed = 0.003,
@@ -458,9 +441,7 @@ local big_nuclear_explosion = {
                 starting_speed_deviation = CLUSTER_NUKE.STARTING_SPEED_DEVIATION
             }
         }
-    },
-    animation = SHARED_ROCKET_ANIMATION,
-    smoke = SHARED_ROCKET_SMOKE
+    }
 }
 
 data:extend({
