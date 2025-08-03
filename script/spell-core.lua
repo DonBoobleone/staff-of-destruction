@@ -1,7 +1,7 @@
+-- script/spell-core
 local SpellCore = {}
 
--- Constants
-local MANA_UNIT = 1  -- 1 Mana = 1 Joule
+-- 1 Mana = 1 Joule
 
 function SpellCore.get_available_mana(player)
     if not player or not player.valid then return 0 end
@@ -59,19 +59,22 @@ function SpellCore.calculate_spell_tier(mana, min_mana_cost, max_tier, tier_expo
     return tier
 end
 
-function SpellCore.casting_animation(surface, position, animation_name, scale)
+function SpellCore.casting_animation(surface, position, animation_name)
     if not surface or not surface.valid then return false end
     surface.create_entity({
         name = animation_name or "explosion",  -- Fallback to base if missing
         position = position,
-        force = "player",
-        scale = scale or 1.0  -- Apply scale if provided, default to 1.0
+        force = "player"
     })
     return true
 end
 
 function SpellCore.create_projectile_on_target(surface, target_position, projectile_name)
     if not surface or not surface.valid then return false end
+    --[[ if not projectile_name or not data.raw.projectile[projectile_name] then
+        log(string.format("Invalid or missing projectile_name: %s", tostring(projectile_name)))
+        return false
+    end ]]
     surface.create_entity({
         name = projectile_name,
         position = target_position,

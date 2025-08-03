@@ -3,7 +3,7 @@ local spell_animations = {}
 
 -- Scaling table for pentagram animations
 -- Scale 1.0 = 12 tiles
-local PENTAGRAM_SCALES = {0.25, 0.69, 1.0, 1.5}  -- Scales for tiers 1 to 4
+local PENTAGRAM_SCALES = {0.25, 0.66, 0.85, 1.5, 2.4}  -- Scales for tiers 1 to 5
 
 spell_animations.magic_swirl = function()
     return {
@@ -96,7 +96,20 @@ data:extend({
         animations = {
             spell_animations.pentagram_with_scale(4)
         },
-        light = {intensity = 0.7, size = 8},
+        light = {intensity = 0.8, size = 12},
+        smoke = nil,
+        correct_camera = true,
+        duration = 120
+    }
+    ,
+    {
+        type = "explosion",
+        name = "pentagram-tier-5",
+        flags = {"not-on-map"},
+        animations = {
+            spell_animations.pentagram_with_scale(5)
+        },
+        light = {intensity = 0.9, size = 18},
         smoke = nil,
         correct_camera = true,
         duration = 120

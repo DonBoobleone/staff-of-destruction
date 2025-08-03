@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.3
+Date: 03. 08. 2025
+  Balancing:
+    - Added "cluster-artirelly-shell" to tier 3
+    - Moved Nuclear Blast to tier 4
+    - Added Cluster Nuke to tier 5
+  Sounds:
+    - Replaced weapon firing sound
+---------------------------------------------------------------------------------------------------
 Version: 0.1.2
 Date: 02. 08. 2025
   Graphics:

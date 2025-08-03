@@ -1,16 +1,18 @@
-local SpellCore = require("lib.spell-core")
+local SpellCore = require("script.spell-core")
 
 -- Constants for Explosion Magic configuration
 local EXPLOSION_MAGIC = {
     MIN_MANA_COST = 1000000,  -- 1 MJ
     TIER_EXPONENT = 10,
     PROJECTILES = {
-        "explosive-rocket",         -- Tier 1: 1 MJ
-        "cluster-explosive-rocket", -- Tier 2: 10 MJ
-        "atomic-rocket",            -- Tier 3: 100 MJ
-        "big-nuclear-explosion"     -- Tier 4: 1000 MJ
+        "explosive-rocket",             -- Tier 1: 1 MJ
+        "cluster-explosive-rocket",     -- Tier 2: 10 MJ
+        "cluster-artillery",            -- Tier 3: 100 MJ
+        "atomic-rocket",                -- Tier 4: 1 GJ
+        "big-nuclear-explosion"         -- Tier 5: 10 GJ
+
     },
-    MAX_TIER = 4,  -- Derived from projectiles table
+    MAX_TIER = 5,  -- Derived from projectiles table
     CASTING_ANIMATION = "magic-swirl",
     TARGET_ANIMATION_PREFIX = "pentagram-tier-",  -- Prefix for tiered pentagram animations
     EVENT_NAME = "magic-explosion-core-event"
@@ -22,7 +24,7 @@ local function create_spell_animation(surface, position, animation_name, tier)
     if animation_name == EXPLOSION_MAGIC.TARGET_ANIMATION_PREFIX and tier then
         final_animation_name = animation_name .. tier  -- Append tier number for pentagram
     end
-    if not SpellCore.casting_animation(surface, position, final_animation_name, 1.0) then
+    if not SpellCore.casting_animation(surface, position, final_animation_name) then
         log(string.format("Failed to create animation '%s' at position (%f, %f)",
             final_animation_name, position.x, position.y))
         return false

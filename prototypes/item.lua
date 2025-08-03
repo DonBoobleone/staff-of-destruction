@@ -18,7 +18,7 @@ data:extend({
             projectile_creation_distance = 0,
             sound = {
                 {
-                    filename = "__base__/sound/fight/artillery-shoots-1.ogg",
+                    filename = "__staff-of-destruction__/sound/noahbangs-magic-flutter.ogg",
                     volume = 0.8
                 }
             }
