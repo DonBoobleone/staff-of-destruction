@@ -69,14 +69,19 @@ function SpellCore.casting_animation(surface, position, animation_name)
     return true
 end
 
-function SpellCore.create_projectile_on_target(surface, target_position, projectile_name)
+function SpellCore.create_projectile_on_target(surface, target_position, projectile_name, damage_bonus, player)
     if not surface or not surface.valid then return false end
+
     surface.create_entity({
         name = projectile_name,
         position = target_position,
         target = target_position,
         speed = 1,
-        force = "player"
+        force = "player",
+        source = player.character,
+        bonus_damage_modifiers = {
+            damage_modifier = damage_bonus
+        }
     })
     return true
 end

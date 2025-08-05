@@ -1,26 +1,13 @@
 local sounds = require("__base__/prototypes/entity/sounds")
 
 -- Shared constants
-local SHARED_SHELL_SMOKE = {
-    {
-        name = "smoke-fast",
-        deviation = { 0.15, 0.15 },
-        frequency = 1,
-        position = { 0, 0 },
-        slow_down_factor = 1,
-        starting_frame = 3,
-        starting_frame_deviation = 5,
-        starting_frame_speed = 0,
-        starting_frame_speed_deviation = 5
-    }
-}
 local SHARED_NUKE_VARS = {
     max_shockwave_movement_distance = 19,
     shockwave_starting_speed_deviation = 0.075
 }
 -- Constants for cluster explosive rocket
-local CLUSTER_EXPLOSIVE_ROCKET = {
-    NAME = "cluster-explosive-rocket",
+local CLUSTER_EXPLOSION_MAGIC = {
+    NAME = "cluster-explosion-magic",
     CLUSTER_COUNT = 10,
     DISTANCE = 4,
     DISTANCE_DEVIATION = 2.5,
@@ -44,8 +31,8 @@ local CLUSTER_ARTILLERY = {
 local CLUSTER_NUKE = {
     NAME = "cluster-nuke",
     CLUSTER_COUNT = 5,
-    DISTANCE = 14,
-    DISTANCE_DEVIATION = 2,
+    DISTANCE = 20,
+    DISTANCE_DEVIATION = 3,
     DIRECTION_DEVIATION = 0.5,
     STARTING_SPEED = 0.5,
     STARTING_SPEED_DEVIATION = 0.4,
@@ -63,10 +50,11 @@ local function create_rocket_projectile(name, acceleration, action)
         action = action
     }
 end
+
 -- Cluster explosive rocket
 local cluster_explosive_rocket = create_rocket_projectile(
-    CLUSTER_EXPLOSIVE_ROCKET.NAME,
-    CLUSTER_EXPLOSIVE_ROCKET.ACCELERATION,
+    CLUSTER_EXPLOSION_MAGIC.NAME,
+    CLUSTER_EXPLOSION_MAGIC.ACCELERATION,
     {
         {
             type = "direct",
@@ -87,19 +75,95 @@ local cluster_explosive_rocket = create_rocket_projectile(
         },
         {
             type = "cluster",
-            cluster_count = CLUSTER_EXPLOSIVE_ROCKET.CLUSTER_COUNT,
-            distance = CLUSTER_EXPLOSIVE_ROCKET.DISTANCE,
-            distance_deviation = CLUSTER_EXPLOSIVE_ROCKET.DISTANCE_DEVIATION,
+            cluster_count = CLUSTER_EXPLOSION_MAGIC.CLUSTER_COUNT,
+            distance = CLUSTER_EXPLOSION_MAGIC.DISTANCE,
+            distance_deviation = CLUSTER_EXPLOSION_MAGIC.DISTANCE_DEVIATION,
             action_delivery = {
                 type = "projectile",
-                projectile = "explosive-rocket",
-                direction_deviation = CLUSTER_EXPLOSIVE_ROCKET.DIRECTION_DEVIATION,
-                starting_speed = CLUSTER_EXPLOSIVE_ROCKET.STARTING_SPEED,
-                starting_speed_deviation = CLUSTER_EXPLOSIVE_ROCKET.STARTING_SPEED_DEVIATION
+                projectile = "explosion-magic",
+                direction_deviation = CLUSTER_EXPLOSION_MAGIC.DIRECTION_DEVIATION,
+                starting_speed = CLUSTER_EXPLOSION_MAGIC.STARTING_SPEED,
+                starting_speed_deviation = CLUSTER_EXPLOSION_MAGIC.STARTING_SPEED_DEVIATION
             }
         }
     }
 )
+-- Basic explosion
+local explosion_magic = {
+    type = "projectile",
+    name = "explosion-magic",
+    flags = { "not-on-map" },
+    acceleration = 0.005,
+    turn_speed = 0.01,
+    action = {
+        {
+            type = "direct",
+            action_delivery = {
+                type = "instant",
+                target_effects = {
+                    {
+                        type = "create-entity",
+                        entity_name = "big-explosion"
+                    },
+                    {
+                        type = "create-entity",
+                        entity_name = "medium-scorchmark-tintable",
+                        check_buildability = true
+                    },
+                    {
+                        type = "invoke-tile-trigger",
+                        repeat_count = 1
+                    },
+                    {
+                        type = "destroy-decoratives",
+                        from_render_layer = "decorative",
+                        to_render_layer = "object",
+                        include_soft_decoratives = true,
+                        include_decals = false,
+                        invoke_decorative_trigger = true,
+                        decoratives_with_trigger_only = false,
+                        radius = 3.5
+                    }
+                }
+            }
+        },
+        {
+            type = "area",
+            radius = 1,
+            action_delivery = {
+                type = "instant",
+                target_effects = {
+                    {
+                        type = "damage",
+                        damage = { amount = 50, type = "explosion" }
+                    },
+                    {
+                        type = "create-entity",
+                        entity_name = "explosion"
+                    }
+                }
+            }
+        },
+        {
+            type = "area",
+            radius = 6.5,
+            action_delivery = {
+                type = "instant",
+                target_effects = {
+                    {
+                        type = "damage",
+                        damage = { amount = 100, type = "explosion" }
+                    },
+                    {
+                        type = "create-entity",
+                        entity_name = "explosion"
+                    }
+                }
+            }
+        }
+    }
+}
+
 -- Artillery shell
 local artillery_shell = {
     type = "projectile",
@@ -445,6 +509,7 @@ local big_nuclear_explosion = {
 }
 
 data:extend({
+    explosion_magic,
     cluster_explosive_rocket,
     artillery_shell,
     cluster_artillery,

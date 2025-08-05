@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.4
+Date: 06. 08. 2025
+  Features:
+    - Stronger-explosives research will affect explosion-magic
+  Balancing:
+    - Increased Cluster Nuke's cluster range 14 -> 20
+---------------------------------------------------------------------------------------------------
 Version: 0.1.3
 Date: 03. 08. 2025
   Balancing:
