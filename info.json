@@ -1,9 +1,9 @@
 {
   "name": "staff-of-destruction",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "title": "Staff of Destruction",
   "author": "Don Boobleone",
   "factorio_version": "2.0",
-  "dependencies": ["base >= 2.0", "? space-age >= 2.0"],
+  "dependencies": ["base>=2.0", "?space-age"],
   "description": "Ancient weapons system, so high tech it looks like magic!\nFires tiered explosions using armor battery as mana."
 }
