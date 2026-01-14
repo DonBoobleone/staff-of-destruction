@@ -97,11 +97,6 @@ script.on_event(defines.events.on_script_trigger_effect, function(event)
     local research_damage_bonus = force.get_ammo_damage_modifier("explosion-magic")
     local damage_bonus = weapon_damage_bonus + research_damage_bonus -- Additive or multiply with weapons?
 
-    --[[ --debug only
-    if script.active_mods["debugadapter"] then
-        player.print(string.format("damage bonus= %.2f", damage_bonus))
-    end ]]
-
     -- Schedule projectile after cooldown
     local casting_time = get_cooldown_of_active_gun(player)
     local delay_ticks = game.tick + casting_time
@@ -117,11 +112,3 @@ script.on_event(defines.events.on_script_trigger_effect, function(event)
 
     script.on_event(defines.events.on_tick, delayed_projectile_creation)
 end)
-
---[[ --event logger
-script.on_event(defines.events.on_entity_damaged, function(event)
-    if not event.entity or not event.entity.valid then return end
-    local cause_name = event.cause and event.cause.valid and event.cause.name or "unknown"
-    local damage_type = event.damage_type and event.damage_type.name or "unknown"
-    game.print(string.format("Entity '%s' damaged: %.2f final amount (original %.2f) of type '%s' by '%s'", event.entity.name, event.final_damage_amount, event.original_damage_amount, damage_type, cause_name))
-end) ]]
